@@ -16,15 +16,10 @@ import { UserModule } from './modules/user/user.module';
 @Module({
   imports: [
     /* Note: Remember use env validation when using related module (lib) */
-    ConfigModule([
-      'jwt-auth',
-      'aws',
-      'sendgrid'
-      // "firebase"
-    ]),
+    ConfigModule.forRoot(['jwt-auth', 'aws', 'sendgrid']),
     LoggerModule.forRoot(),
-    DatabaseModule,
-    GqlModule({ buildSchemaOptions: { fieldMiddleware: [FieldPermissionMiddleware] } }),
+    DatabaseModule.forRoot(),
+    GqlModule.forRoot({ buildSchemaOptions: { fieldMiddleware: [FieldPermissionMiddleware] } }),
     S3Module.forRoot(getS3Config()),
     SendGridModule.forRoot(getSendgridConfig().apiKey),
     // FirebaseModule.forRoot(FirebaseConfig),

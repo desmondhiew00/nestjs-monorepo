@@ -11,9 +11,9 @@ import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
-    ConfigModule(['aws']),
-    DatabaseModule,
-    GqlModule(),
+    ConfigModule.forRoot(['aws']),
+    DatabaseModule.forRoot(),
+    GqlModule.forRoot(),
     S3Module.forRoot(getS3Config()),
     SendGridModule.forRoot(getSendgridConfig().apiKey),
     UserModule

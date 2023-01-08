@@ -8,7 +8,13 @@ import { JobModule } from './modules/job/job.module';
 import { SchedulerService } from './scheduler.service';
 
 @Module({
-  imports: [ConfigModule(), DatabaseModule, LoggerModule.forRoot(), ScheduleModule.forRoot(), JobModule],
+  imports: [
+    ConfigModule.forRoot(),
+    DatabaseModule.forRoot(),
+    LoggerModule.forRoot(),
+    ScheduleModule.forRoot(),
+    JobModule
+  ],
   controllers: [],
   providers: [SchedulerService]
 })

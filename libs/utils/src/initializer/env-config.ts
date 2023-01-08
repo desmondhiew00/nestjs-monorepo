@@ -1,3 +1,4 @@
+import { DynamicModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import Joi from 'joi';
 import path from 'path';
@@ -54,20 +55,21 @@ export const environments = {
 } as const;
 
 type Module = keyof typeof environments;
-export const EnvConfigModule = (modules?: Module[]) => {
-  const appName = path.basename(__dirname);
+export class EnvConfigModule {
+  static forRoot(modules?: Module[]): DynamicModule {
+    const appName = path.basename(__dirname);
 
-  let schema = { ...main, ...environments.database }; // default schema
-  (modules || []).map((key) => {
-    const module = environments[key];
-    schema = { ...schema, ...module };
-  });
-
-  return ConfigModule.forRoot({
-    envFilePath: `.${appName}.env`,
-    isGlobal: true,
-    validationSchema: Joi.object(schema)
-  });
-};
+    let schema = { ...main, ...environments.database }; // default schema
+    (modules || []).map((key) => {
+      const module = environments[key];
+      schema = { ...schema, ...module };
+    });
+    return ConfigModule.forRoot({
+      envFilePath: `.${appName}.env`,
+      isGlobal: true,
+      validationSchema: Joi.object(schema)
+    });
+  }
+}
 
 export default EnvConfigModule;
