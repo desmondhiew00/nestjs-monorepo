@@ -46,6 +46,11 @@ export const environments = {
     FIREBASE_TOKEN_URI: Joi.string().required(),
     FIREBASE_AUTH_PROVIDER_X509_CERT_URL: Joi.string().required(),
     FIREBASE_CLIENT_X509_CERT_URL: Joi.string().required()
+  },
+  onewaysms: {
+    ONEWAYSMS_API_URL: Joi.string().required(),
+    ONEWAYSMS_USERNAME: Joi.string().required(),
+    ONEWAYSMS_PASSWORD: Joi.string().required()
   }
 } as const;
 

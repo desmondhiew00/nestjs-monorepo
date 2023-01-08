@@ -8,8 +8,8 @@ const run = () => {
     args.splice(0, 2);
 
     const schematic = _.get(args, '0') || '';
-    let name = _.get(args, '1') || '';
-    let options = _.get(args, '2') || '';
+    const name = _.get(args, '1') || '';
+    const options = _.get(args, '2') || '';
     let path = '';
 
     if (!schematic) throw new Error("missing required argument 'schematic'");
@@ -20,12 +20,7 @@ const run = () => {
       }
     });
 
-    if (!path && name) {
-      options = name;
-      name = '';
-    } else {
-      if (!name) throw new Error("missing required argument 'name'");
-    }
+    if (path && !name) throw new Error("missing required argument 'name'");
 
     const command = `nest generate --no-spec ${options} ${schematic} ${name} ${path} && yarn lint`;
     execSync(command, { stdio: 'inherit' });

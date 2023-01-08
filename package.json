@@ -47,6 +47,7 @@
     "@nestjs/typeorm": "^9.0.1",
     "@sendgrid/mail": "^7.7.0",
     "apollo-server-express": "^3.11.1",
+    "axios": "^1.2.2",
     "bcrypt": "^5.1.0",
     "change-case": "^4.1.2",
     "class-transformer": "^0.5.1",
@@ -139,7 +140,9 @@
       "@lib/auth/(.*)": "<rootDir>/libs/encryption/src/$1",
       "@lib/auth": "<rootDir>/libs/encryption/src",
       "@lib/utils/(.*)": "<rootDir>/libs/utils/src/$1",
-      "@lib/utils": "<rootDir>/libs/utils/src"
+      "@lib/utils": "<rootDir>/libs/utils/src",
+      "@lib/onewaysms/(.*)": "<rootDir>/libs/onewaysms/src/$1",
+      "@lib/onewaysms": "<rootDir>/libs/onewaysms/src"
     }
   }
 }

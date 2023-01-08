@@ -97,6 +97,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/utils/tsconfig.lib.json"
       }
+    },
+    "onewaysms": {
+      "type": "library",
+      "root": "libs/onewaysms",
+      "entryFile": "index",
+      "sourceRoot": "libs/onewaysms/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/onewaysms/tsconfig.lib.json"
+      }
     }
   }
 }
