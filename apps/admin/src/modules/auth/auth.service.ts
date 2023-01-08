@@ -5,7 +5,8 @@ import _ from 'lodash';
 import { Repository } from 'typeorm';
 import { UserEntity } from '@db/entities/user.entity';
 import { EncryptionService } from '@lib/encryption';
-import { jwtConfigAccess, jwtConfigRefresh, JwtSignData } from '../../configs/jwt.config';
+
+import { getAccessConfig, getRefreshConfig, JwtSignData } from '../../configs/jwt.config';
 
 @Injectable()
 export class AuthService {
@@ -22,8 +23,8 @@ export class AuthService {
     if (user.active === false) throw new Error('This account has been suspended');
 
     const jwtSignData: JwtSignData = { id: user.id };
-    const accessToken = this.jwtService.sign(jwtSignData, jwtConfigAccess);
-    const refreshToken = this.jwtService.sign(jwtSignData, jwtConfigRefresh);
+    const accessToken = this.jwtService.sign(jwtSignData, getAccessConfig());
+    const refreshToken = this.jwtService.sign(jwtSignData, getRefreshConfig());
 
     /* -------------------- Update refresh token to database -------------------- */
     this.userRepo.merge(user, { refreshToken });
@@ -57,7 +58,7 @@ export class AuthService {
 
   // Revoke
   async revoke(refreshToken: string) {
-    const payload = this.jwtService.verify(refreshToken, { secret: jwtConfigRefresh.secret }) as JwtSignData;
+    const payload = this.jwtService.verify(refreshToken, { secret: getRefreshConfig().secret }) as JwtSignData;
     if (!payload) throw new Error('Invalid refresh token');
 
     const user = await this.userRepo.findOneOrFail({ where: { id: payload.id } });

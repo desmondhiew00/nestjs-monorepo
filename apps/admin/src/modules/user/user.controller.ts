@@ -1,5 +1,6 @@
 import { Controller, Get, Res } from '@nestjs/common';
 import { Response } from 'express';
+
 import { UserService } from './user.service';
 
 @Controller('user')

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from '@db/dto/user.dto';
 import { UserEntity } from '@db/entities/user.entity';
 import { EncryptionService } from '@lib/encryption';
+
 import type { AuthData } from '../../types';
 import { MailService } from '../mail/mail.service';
 

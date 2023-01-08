@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DbService } from './db.service';
+
+import { DatabaseService } from './database.service';
 
 import 'dotenv/config';
 
@@ -18,7 +19,7 @@ import 'dotenv/config';
       synchronize: false
     })
   ],
-  providers: [DbService],
-  exports: [DbService]
+  providers: [DatabaseService],
+  exports: [DatabaseService]
 })
-export class DbModule {}
+export class DatabaseModule {}

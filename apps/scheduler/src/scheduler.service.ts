@@ -2,6 +2,7 @@
 
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+
 import { JobService } from './modules/job/job.service';
 
 @Injectable()

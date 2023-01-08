@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { SendGridService } from '@lib/sendgrid';
 
 @Injectable()
@@ -8,7 +9,10 @@ export class MailService {
     name: process.env.SENDGRID_SENDER_NAME
   };
 
-  constructor(private sendgrid: SendGridService) {}
+  constructor(private sendgrid: SendGridService, configService: ConfigService) {
+    configService.getOrThrow('SENDGRID_SENDER_EMAIL');
+    configService.getOrThrow('SENDGRID_SENDER_NAME');
+  }
 
   async sendTemporaryPassword(email: string, tempPassword: string) {
     try {

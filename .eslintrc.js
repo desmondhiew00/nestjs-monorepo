@@ -35,8 +35,9 @@ module.exports = {
           'error',
           {
             groups: [
-              ['^@nestjs', '^', '^@', 'apps', 'libs', 'configs', 'constants', 'scripts', '^\\.'],
-              ['dotenv/config', '@lib/utils/initializer/dayjs.init']
+              ['^@nestjs', '^', '^@', 'apps', 'libs', 'constants', 'scripts'],
+              ['^\\.'],
+              ['dotenv/config', '@lib/utils/initializer/dayjs']
             ]
           }
         ]

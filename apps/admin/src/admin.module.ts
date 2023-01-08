@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
 import { S3Module } from '@lib/aws';
-import { DbModule } from '@lib/database';
+import { DatabaseModule } from '@lib/database';
 import { LoggerModule } from '@lib/logger';
 import { SendGridModule } from '@lib/sendgrid';
-import { EnvConfigModule } from '@lib/utils/initializer/env-config';
+import ConfigModule from '@lib/utils/initializer/env-config';
 import { GqlModule } from '@lib/utils/initializer/gql';
+
+import { getS3Config } from './configs/aws.config';
+import { getSendgridConfig } from './configs/sendgrid.config';
 import { FieldPermissionMiddleware } from './middlewares/gql.middlewares';
 import { AuthModule } from './modules/auth/auth.module';
 import { MailModule } from './modules/mail/mail.module';
@@ -12,12 +15,19 @@ import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
-    EnvConfigModule,
+    /* Note: Remember use env validation when using related module (lib) */
+    ConfigModule([
+      'auth',
+      'aws',
+      'sendgrid'
+      // "firebase"
+    ]),
+    LoggerModule.forRoot(),
+    DatabaseModule,
     GqlModule({ buildSchemaOptions: { fieldMiddleware: [FieldPermissionMiddleware] } }),
-    S3Module.forRoot(),
-    SendGridModule.forRoot(process.env.SENDGRID_API_KEY),
-    LoggerModule.forRoot('admin'),
-    DbModule,
+    S3Module.forRoot(getS3Config()),
+    SendGridModule.forRoot(getSendgridConfig().apiKey),
+    // FirebaseModule.forRoot(FirebaseConfig),
     UserModule,
     AuthModule,
     MailModule

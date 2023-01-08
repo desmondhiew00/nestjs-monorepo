@@ -25,7 +25,7 @@
 ## Description
 
 ```bash
-NestJS Monorepo reference
+NestJS Monorepo with shared database modeling
 # https://docs.nestjs.com/cli/monorepo#monorepo-mode
 ```
 
@@ -178,7 +178,9 @@ $ yarn generate resource --no-spec
 ├── logs
 ├── scripts # npm script
 │
-├── .env
+├── .env # Global env (shared to all app) cannot be override
+├── .admin.env # Monorepo env (not shared) Note: not work with `import 'dotenv/config'`
+├── .<app-name>.env
 ├── .env.sample
 ├── .eslintrc.js # eslint config
 ├── .gitignore

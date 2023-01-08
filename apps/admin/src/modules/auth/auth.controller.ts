@@ -1,5 +1,6 @@
 import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+
 import { AuthUser, UseJwtAuthGuard } from '../../decorators/auth.decorator';
 import type { AuthData } from '../../types';
 import { AuthService } from './auth.service';

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UserCrudResolver } from '@db/dto/user.dto';
 import { EncryptionModule } from '@lib/encryption';
+
 import { GqlJwtAuthGuard } from '../../guards/auth.guard';
 import { MailModule } from '../mail/mail.module';
 import { UserController } from './user.controller';

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import bcrypt from 'bcrypt';
 import { createHash, randomInt } from 'crypto';
+
 import { PASSWORD_SALT_ROUNDS, TOKEN_SALT_ROUNDS } from './configs/encryption.config';
 
 const isDev = process.env.NODE_ENV === 'development';

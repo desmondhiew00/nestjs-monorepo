@@ -1,5 +1,6 @@
 import { applyDecorators, createParamDecorator, ExecutionContext, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
+
 import { getRequestFromContext, JwtAuthGuard } from '../guards/auth.guard';
 
 export const AuthUser = createParamDecorator((_data: unknown, ctx: ExecutionContext) => {

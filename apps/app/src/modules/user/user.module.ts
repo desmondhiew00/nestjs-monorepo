@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UserCrudResolver } from '@db/dto/user.dto';
+
 import { UserDTO } from './dto/user.dto';
 import { UserService } from './user.service';
 

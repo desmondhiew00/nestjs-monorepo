@@ -1,6 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { FilterableField } from '@nestjs-query/query-graphql';
 import { Column, Entity } from 'typeorm';
+
 import { AppBaseEntity } from '../base/entity-base';
 
 /**

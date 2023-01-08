@@ -2,18 +2,14 @@ import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/c
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy as JWTStrategy } from 'passport-jwt';
 import { UserEntity } from '@db/entities/user.entity';
-import { jwtConfigAccess, JwtSignData } from 'apps/admin/src/configs/jwt.config';
-
-export const strategy = {
-  jwt: 'admin-jwt-auth'
-};
+import { getAccessConfig, JwtSignData, strategy } from 'apps/admin/src/configs/jwt.config';
 
 @Injectable()
 export class JwtAuthStrategy extends PassportStrategy(JWTStrategy, strategy.jwt) {
   constructor() {
     super({
       passReqToCallback: true,
-      secretOrKey: jwtConfigAccess.secret,
+      secretOrKey: getAccessConfig().secret,
       ignoreExpiration: false,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
     });

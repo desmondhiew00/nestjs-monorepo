@@ -1,9 +1,11 @@
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
+import './dayjs';
 import cookieParser from 'cookie-parser';
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 import helmet from 'helmet';
 import { printNestApplicationDetails } from '@lib/logger/logger.utils';
+
 import { AppExceptionsFilter } from '../filters/exception.filter';
 import initSwagger, { InitSwaggerConfig } from './swagger';
 

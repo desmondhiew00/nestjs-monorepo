@@ -1,20 +1,13 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
-import { S3Service } from './s3.service';
 
-const defaultConfig = {
-  region: process.env.AWS_REGION,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-  }
-};
+import { S3Service } from './s3.service';
 
 @Global()
 @Module({})
 export class S3Module {
-  static forRoot(configuration?: S3ClientConfig): DynamicModule {
-    const s3Client = new S3Client(configuration || defaultConfig);
+  static forRoot(configuration: S3ClientConfig): DynamicModule {
+    const s3Client = new S3Client(configuration);
 
     // if (isProduction) {
     //   s3Client.send(new ListBucketsCommand({})).then(() => {

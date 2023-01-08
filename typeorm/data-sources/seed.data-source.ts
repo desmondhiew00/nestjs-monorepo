@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+
 import AppDataSource from './app.data-source';
 
 import 'dotenv/config';

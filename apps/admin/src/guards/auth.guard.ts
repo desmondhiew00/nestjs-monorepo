@@ -1,7 +1,8 @@
 import { BadRequestException, ExecutionContext, Injectable } from '@nestjs/common';
 import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
 import { AuthGuard as PassportGuard } from '@nestjs/passport';
-import { strategy } from '../modules/auth/strategies/jwt.strategy';
+
+import { strategy } from '../configs/jwt.config';
 
 @Injectable()
 export class JwtAuthGuard extends PassportGuard(strategy.jwt) {
