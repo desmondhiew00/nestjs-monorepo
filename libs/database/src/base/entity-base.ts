@@ -5,14 +5,11 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  JoinColumn,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
 
 // import { UserDTO } from '../dto/user.dto';
-import { UserEntity } from '../entities/user.entity';
 // import { GqlHasOne } from './dto-relation';
 
 /**
@@ -47,10 +44,4 @@ export class AppBaseEntity extends BaseEntity {
 
   @DeleteDateColumn()
   deletedAt: Date;
-
-  /* -------------------------------- Relations ------------------------------- */
-
-  @ManyToOne(() => UserEntity)
-  @JoinColumn({ name: 'createdBy' })
-  creator: UserEntity;
 }

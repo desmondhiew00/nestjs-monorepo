@@ -1,5 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { UpdateUserDto, UserDTO } from '@db/dto/user.dto';
+import { UpdateUserDto } from '@db/dto/user.dto';
+import { UserDTO } from '@db/entities/user.entity';
 
 import { AuthUser, UseJwtAuthGuard } from '../../decorators/auth.decorator';
 import { AuthData } from '../../types';

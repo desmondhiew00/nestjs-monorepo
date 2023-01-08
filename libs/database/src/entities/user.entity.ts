@@ -1,7 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { FilterableField } from '@nestjs-query/query-graphql';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
+import { AppDtoDecorators } from '../base/dto-base';
+import { DTORelations, GqlHasOne } from '../base/dto-relation';
 import { AppBaseEntity } from '../base/entity-base';
 
 /**
@@ -46,6 +48,13 @@ export class UserEntity extends AppBaseEntity {
   @Column('boolean', { default: true })
   active: boolean;
 
+  /* -------------------------------- Relations ------------------------------- */
+
+  @GqlHasOne(() => UserDTO)
+  @ManyToOne(() => UserEntity)
+  @JoinColumn({ name: 'createdBy' })
+  creator: UserEntity;
+
   /* ---------------------------------- Hooks --------------------------------- */
   // @BeforeInsert()
   // async hashPassword() {
@@ -53,3 +62,7 @@ export class UserEntity extends AppBaseEntity {
   //   if (this.password) this.password = await authService.hashPassword(this.password);
   // }
 }
+
+@DTORelations(() => UserDTO)
+@AppDtoDecorators(() => UserDTO)
+export class UserDTO extends UserEntity {}

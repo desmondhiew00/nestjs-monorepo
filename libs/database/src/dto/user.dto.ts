@@ -4,19 +4,10 @@ import { NestjsQueryTypeOrmModule } from '@nestjs-query/query-typeorm';
 import { IsEmail, IsOptional, IsString } from 'class-validator';
 import GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
 import { FileUpload } from 'graphql-upload/Upload.js';
-import { UserEntity } from '@db/entities/user.entity';
+import { UserDTO, UserEntity } from '@db/entities/user.entity';
 import { UserSubscriber } from '@db/subscribers/user.subscriber';
 
-import { AppDtoDecorators } from '../base/dto-base';
-import { DTORelations, GqlHasOne } from '../base/dto-relation';
 import type { CrudResolverConfig } from '../types';
-
-@DTORelations(() => UserDTO)
-@AppDtoDecorators(() => UserDTO)
-export class UserDTO extends UserEntity {
-  @GqlHasOne(() => UserDTO)
-  creator: UserDTO;
-}
 
 /* -------------------------------- CRUD Dto -------------------------------- */
 
