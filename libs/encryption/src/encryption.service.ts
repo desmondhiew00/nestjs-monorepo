@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import bcrypt from 'bcrypt';
-import { createHash, randomInt } from 'crypto';
+import { createHash, randomBytes, randomInt } from 'crypto';
 
 import { PASSWORD_SALT_ROUNDS, TOKEN_SALT_ROUNDS } from './configs/encryption.config';
 
@@ -25,7 +25,7 @@ export class EncryptionService {
     return bcrypt.hash(sha256Token, tokenSaltRounds);
   }
 
-  async compareToken(token: string, tokenHash) {
+  async compareToken(token: string, tokenHash: string) {
     const sha256Token = createHash('sha256').update(token).digest('hex');
     return bcrypt.compare(sha256Token, tokenHash);
   }
@@ -42,5 +42,10 @@ export class EncryptionService {
     const password = this.generatePasswordString();
     const hashedPassword = await this.hashPassword(password);
     return { password, hashedPassword };
+  }
+
+  generateForgotPasswordToken() {
+    const token = randomBytes(12).toString('hex');
+    return token;
   }
 }

@@ -39,6 +39,9 @@ export class UserEntity extends AppBaseEntity {
   @Column({ nullable: true })
   fcmToken: string;
 
+  @Column('text', { nullable: true })
+  forgotPasswordToken: string;
+
   @FilterableField()
   @Column('boolean', { default: true })
   active: boolean;

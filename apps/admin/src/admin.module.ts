@@ -17,7 +17,7 @@ import { UserModule } from './modules/user/user.module';
   imports: [
     /* Note: Remember use env validation when using related module (lib) */
     ConfigModule([
-      'auth',
+      'jwt-auth',
       'aws',
       'sendgrid'
       // "firebase"

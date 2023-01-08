@@ -10,7 +10,7 @@ const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   entities: ['libs/database/src/entities/**/*.entity.ts'],
-  migrations: ['database/migrations/**/*.*']
+  migrations: ['typeorm/migrations/**/*.*']
 });
 
 export default AppDataSource;

@@ -2,11 +2,10 @@ import type { FileUpload } from 'graphql-upload/Upload';
 import { DataSource, EntitySubscriberInterface, EventSubscriber, InsertEvent, UpdateEvent } from 'typeorm';
 import { S3Service } from '@lib/aws';
 import { UserEntity } from '@lib/database/entities/user.entity';
-import { SendGridService } from '@lib/sendgrid';
 
 @EventSubscriber()
 export class UserSubscriber implements EntitySubscriberInterface<UserEntity> {
-  constructor(dataSource: DataSource, private s3Service: S3Service, private sendgridService: SendGridService) {
+  constructor(dataSource: DataSource, private s3Service: S3Service) {
     dataSource.subscribers.push(this);
   }
 

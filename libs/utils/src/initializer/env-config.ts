@@ -18,10 +18,10 @@ export const environments = {
     DB_PASSWORD: Joi.string().required(),
     DB_NAME: Joi.string().required()
   },
-  auth: {
+  'jwt-auth': {
     ACCESS_TOKEN_SECRET: Joi.string().required(),
     REFRESH_TOKEN_SECRET: Joi.string().required(),
-    SYSTEM_GEN_PASSWORD: Joi.string() // Replace system auto generated password (For development purpose)
+    FORGOT_PASSWORD_TOKEN_SECRET: Joi.string().required()
   },
   aws: {
     AWS_REGION: Joi.string().required().allow(''),
@@ -48,7 +48,6 @@ export const environments = {
     FIREBASE_CLIENT_X509_CERT_URL: Joi.string().required()
   },
   onewaysms: {
-    ONEWAYSMS_API_URL: Joi.string().required(),
     ONEWAYSMS_USERNAME: Joi.string().required(),
     ONEWAYSMS_PASSWORD: Joi.string().required()
   }

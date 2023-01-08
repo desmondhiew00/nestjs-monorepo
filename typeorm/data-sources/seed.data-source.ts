@@ -6,7 +6,7 @@ import 'dotenv/config';
 
 const SeedDataSource = new DataSource({
   ...AppDataSource.options,
-  migrations: ['database/seeds/**/*.*'],
+  migrations: ['typeorm/seeds/**/*.*'],
   migrationsTableName: 'seeds'
 });
 

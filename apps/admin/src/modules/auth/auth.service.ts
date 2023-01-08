@@ -1,12 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import _ from 'lodash';
 import { Repository } from 'typeorm';
+import { UpdateUserDto } from '@db/dto/user.dto';
 import { UserEntity } from '@db/entities/user.entity';
 import { EncryptionService } from '@lib/encryption';
 
-import { getAccessConfig, getRefreshConfig, JwtSignData } from '../../configs/jwt.config';
+import {
+  getAccessJwtConfig,
+  getForgotPasswordJwtConfig,
+  getRefreshJwtConfig,
+  JwtSignData
+} from '../../configs/jwt.config';
+import { AuthData } from '../../types';
+import { ChangePasswordInput } from './dto/auth.dto';
+
+interface ForgotPasswordTokenData {
+  userId: number;
+  token: string;
+}
 
 @Injectable()
 export class AuthService {
@@ -23,8 +36,8 @@ export class AuthService {
     if (user.active === false) throw new Error('This account has been suspended');
 
     const jwtSignData: JwtSignData = { id: user.id };
-    const accessToken = this.jwtService.sign(jwtSignData, getAccessConfig());
-    const refreshToken = this.jwtService.sign(jwtSignData, getRefreshConfig());
+    const accessToken = this.jwtService.sign(jwtSignData, getAccessJwtConfig());
+    const refreshToken = this.jwtService.sign(jwtSignData, getRefreshJwtConfig());
 
     /* -------------------- Update refresh token to database -------------------- */
     this.userRepo.merge(user, { refreshToken });
@@ -58,7 +71,7 @@ export class AuthService {
 
   // Revoke
   async revoke(refreshToken: string) {
-    const payload = this.jwtService.verify(refreshToken, { secret: getRefreshConfig().secret }) as JwtSignData;
+    const payload = this.jwtService.verify(refreshToken, { secret: getRefreshJwtConfig().secret }) as JwtSignData;
     if (!payload) throw new Error('Invalid refresh token');
 
     const user = await this.userRepo.findOneOrFail({ where: { id: payload.id } });
@@ -76,7 +89,52 @@ export class AuthService {
     return await this.userRepo.save(user);
   }
 
-  // Change password
-  // Forgot password
-  // Reset password
+  async changePassword(input: ChangePasswordInput, authUser: AuthData) {
+    const user = await this.userRepo.findOneOrFail({ where: { id: authUser.id } });
+
+    const validPassword = this.encryption.comparePassword(input.oldPassword, user.password);
+    if (!validPassword) throw new BadRequestException('Invalid old password');
+
+    user.password = await this.encryption.hashPassword(input.newPassword);
+    await this.userRepo.save(user);
+  }
+
+  async getAuthUserData(authUser: AuthData) {
+    return await this.userRepo.findOneByOrFail({ id: authUser.id });
+  }
+
+  async updateProfile(input: UpdateUserDto, authUser: AuthData): Promise<UserEntity> {
+    const user = await this.userRepo.findOneByOrFail({ id: authUser.id });
+    this.userRepo.merge(user, { ...input } as UserEntity);
+    await this.userRepo.save(user);
+    return user;
+  }
+
+  async forgotPassword(email: string) {
+    const user = await this.userRepo.findOne({ where: { email, active: true } });
+    if (!user) throw new Error("Email doesn't exist");
+
+    const token = this.encryption.generateForgotPasswordToken();
+    const jwtTokenData: ForgotPasswordTokenData = { userId: user.id, token };
+    const jwtToken = this.jwtService.sign(jwtTokenData, getForgotPasswordJwtConfig());
+
+    user.forgotPasswordToken = await this.encryption.hashToken(token);
+    await this.userRepo.save(user);
+    return jwtToken;
+  }
+
+  async resetPassword(jwtToken: string, newPassword: string) {
+    const { userId, token } = this.jwtService.verify<ForgotPasswordTokenData>(jwtToken, {
+      secret: getForgotPasswordJwtConfig().secret
+    });
+    if (!token) throw new Error('Invalid token');
+
+    const user = await this.userRepo.findOneByOrFail({ id: userId });
+    const valid = await this.encryption.compareToken(token, user.forgotPasswordToken);
+    if (!valid) throw new Error('Invalid token');
+
+    const hashedPassword = await this.encryption.hashPassword(newPassword);
+    this.userRepo.merge(user, { password: hashedPassword });
+    await this.userRepo.save(user);
+  }
 }
