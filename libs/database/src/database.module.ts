@@ -21,7 +21,6 @@ export class DatabaseModule {
       synchronize: false
     };
 
-    // return TypeOrmModule.forRoot({ ...defaultOption, ...(options || {}) } as TypeOrmModuleOptions);
     const dbModule = TypeOrmModule.forRoot({ ...defaultOption, ...options } as TypeOrmModuleOptions);
     return {
       module: DatabaseModule,

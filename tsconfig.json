@@ -22,72 +22,30 @@
     "maxNodeModuleJsDepth": 10,
     "allowJs": true,
     "paths": {
-      "@db/entities": [
-        "libs/database/src/entities"
-      ],
-      "@db/entities/*": [
-        "libs/database/src/entities/*"
-      ],
-      "@db/dto": [
-        "libs/database/src/dto"
-      ],
-      "@db/dto/*": [
-        "libs/database/src/dto/*"
-      ],
-      "@db/subscribers": [
-        "libs/database/src/subscribers"
-      ],
-      "@db/subscribers/*": [
-        "libs/database/src/subscribers/*"
-      ],
-      "@lib/database": [
-        "libs/database/src"
-      ],
-      "@lib/database/*": [
-        "libs/database/src/*"
-      ],
-      "@lib/aws": [
-        "libs/aws/src"
-      ],
-      "@lib/aws/*": [
-        "libs/aws/src/*"
-      ],
-      "@lib/sendgrid": [
-        "libs/sendgrid/src"
-      ],
-      "@lib/sendgrid/*": [
-        "libs/sendgrid/src/*"
-      ],
-      "@lib/firebase": [
-        "libs/firebase/src"
-      ],
-      "@lib/firebase/*": [
-        "libs/firebase/src/*"
-      ],
-      "@lib/logger": [
-        "libs/logger/src"
-      ],
-      "@lib/logger/*": [
-        "libs/logger/src/*"
-      ],
-      "@lib/encryption": [
-        "libs/encryption/src"
-      ],
-      "@lib/encryption/*": [
-        "libs/encryption/src/*"
-      ],
-      "@lib/utils": [
-        "libs/utils/src"
-      ],
-      "@lib/utils/*": [
-        "libs/utils/src/*"
-      ],
-      "@lib/onewaysms": [
-        "libs/onewaysms/src"
-      ],
-      "@lib/onewaysms/*": [
-        "libs/onewaysms/src/*"
-      ]
+      "@db/entities": ["libs/database/src/entities"],
+      "@db/entities/*": ["libs/database/src/entities/*"],
+      "@db/dto": ["libs/database/src/dto"],
+      "@db/dto/*": ["libs/database/src/dto/*"],
+      "@db/subscribers": ["libs/database/src/subscribers"],
+      "@db/subscribers/*": ["libs/database/src/subscribers/*"],
+      "@db/enums": ["libs/database/src/enums"],
+      "@db/enums/*": ["libs/database/src/enums/*"],
+      "@lib/database": ["libs/database/src"],
+      "@lib/database/*": ["libs/database/src/*"],
+      "@lib/aws": ["libs/aws/src"],
+      "@lib/aws/*": ["libs/aws/src/*"],
+      "@lib/sendgrid": ["libs/sendgrid/src"],
+      "@lib/sendgrid/*": ["libs/sendgrid/src/*"],
+      "@lib/firebase": ["libs/firebase/src"],
+      "@lib/firebase/*": ["libs/firebase/src/*"],
+      "@lib/logger": ["libs/logger/src"],
+      "@lib/logger/*": ["libs/logger/src/*"],
+      "@lib/encryption": ["libs/encryption/src"],
+      "@lib/encryption/*": ["libs/encryption/src/*"],
+      "@lib/utils": ["libs/utils/src"],
+      "@lib/utils/*": ["libs/utils/src/*"],
+      "@lib/onewaysms": ["libs/onewaysms/src"],
+      "@lib/onewaysms/*": ["libs/onewaysms/src/*"]
     }
   }
 }
