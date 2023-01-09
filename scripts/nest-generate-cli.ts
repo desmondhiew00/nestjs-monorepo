@@ -9,7 +9,9 @@ const run = () => {
 
     const schematic = _.get(args, '0') || '';
     const name = _.get(args, '1') || '';
-    const options = _.get(args, '2') || '';
+
+    args.splice(0, 2);
+    const options = _.join(args, ' ');
     let path = '';
 
     if (!schematic) throw new Error("missing required argument 'schematic'");
