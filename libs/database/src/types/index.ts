@@ -4,4 +4,5 @@ export interface CrudResolverConfig {
   imports?: NestjsQueryGraphqlModuleOpts['imports'];
   resolver?: Partial<NestjsQueryGraphqlModuleOpts['resolvers'][number]>;
   subscriber?: boolean;
+  services?: NestjsQueryGraphqlModuleOpts['services'];
 }

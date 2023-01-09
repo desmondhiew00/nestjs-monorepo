@@ -93,14 +93,12 @@ $ yarn migration:seed:run
 
 ```
 
-## File generator
+## Nest CLI (File generator)
 
 ```bash
-
 $ yarn generate <schematic> [name] [options]
 
-# Reference 
-https://docs.nestjs.com/cli/usages#nest-generate
+# [Reference](https://docs.nestjs.com/cli/usages#nest-generate)
 
 # Generate graphql module
 $ yarn generate resource --no-spec
@@ -115,6 +113,23 @@ $ yarn generate resource --no-spec
   # 2. Define module name
   # 3. Select `REST AP`
   # 4. CRUD entry points: type N
+
+```
+
+## Generate entities (model) from existing database
+
+```markdown
+1. export sql from [dbdiagram.io](https://dbdiagram.io/) 
+<!-- (make sure table column type is correct) -->
+<!-- (make sure table foreign key relation is defined) -->
+1. run the exported sql (create tables to database)
+2. update `.env` database config
+3. $ yarn generate:entities
+4. check and update generated entities [path: `libs/database/src/entities`]
+5. generate migration from entities
+6. delete all tables from database 
+7. run typeorm migration
+8. continue development
 ```
 
 ## File Structure

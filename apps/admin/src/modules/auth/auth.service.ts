@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import _ from 'lodash';
 import { Repository } from 'typeorm';
-import { UpdateUserDto } from '@db/dto/user.dto';
+import { UpdateUserDto } from '@db/entities/user.entity';
 import { UserEntity } from '@db/entities/user.entity';
 import { EncryptionService } from '@lib/encryption';
 

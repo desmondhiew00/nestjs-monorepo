@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UserCrudResolver } from '@db/dto/user.dto';
+import { UserCrudResolver } from '@db/entities/user.entity';
 import { EncryptionModule } from '@lib/encryption';
 
 import { GqlJwtAuthGuard } from '../../guards/auth.guard';
@@ -12,7 +12,7 @@ import { UserService } from './user.service';
   imports: [
     EncryptionModule,
     MailModule,
-    UserCrudResolver({
+    UserCrudResolver.forFeature({
       resolver: {
         guards: [GqlJwtAuthGuard]
       }

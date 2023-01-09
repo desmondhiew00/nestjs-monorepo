@@ -25,7 +25,8 @@
     "migration:revert": "yarn typeorm migration:revert",
     "migration:seed:gen": "yarn ts-node scripts/typeorm-generate-seed",
     "migration:seed:run": "yarn ts-node --project ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d typeorm/data-sources/seed.data-source",
-    "generate": "yarn ts-node scripts/nest-generate-cli"
+    "generate": "yarn ts-node scripts/nest-generate-cli",
+    "generate:entities": "yarn ts-node scripts/typeorm-model-generator/index.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.245.0",
@@ -104,6 +105,7 @@
     "ts-loader": "^8.0.18",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^3.9.0",
+    "typeorm-model-generator": "^0.4.6",
     "typescript": "^4.2.3"
   },
   "jest": {

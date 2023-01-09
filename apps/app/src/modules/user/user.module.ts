@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { UserCrudResolver } from '@db/dto/user.dto';
+import { UserCrudResolver } from '@db/entities/user.entity';
 
 import { UserDTO } from './dto/user.dto';
 import { UserService } from './user.service';
 
 @Module({
   imports: [
-    UserCrudResolver({
+    UserCrudResolver.forFeature({
       resolver: {
         DTOClass: UserDTO, // Custom User DTO
         create: { disabled: true },

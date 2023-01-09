@@ -1,10 +1,16 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType, OmitType, PartialType } from '@nestjs/graphql';
 import { FilterableField } from '@nestjs-query/query-graphql';
+import { NestjsQueryGraphQLModule } from '@nestjs-query/query-graphql';
+import { NestjsQueryTypeOrmModule } from '@nestjs-query/query-typeorm';
+import * as V from 'class-validator';
+import GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
+import { FileUpload } from 'graphql-upload/Upload.js';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 import { AppDtoDecorators } from '../base/dto-base';
 import { DTORelations, GqlHasOne } from '../base/dto-relation';
 import { AppBaseEntity } from '../base/entity-base';
+import type { CrudResolverConfig } from '../types';
 
 /**
  * @ObjectType GraphQL schema object
@@ -63,6 +69,53 @@ export class UserEntity extends AppBaseEntity {
   // }
 }
 
+/* ----------------------------------- DTO ---------------------------------- */
+
+@InputType()
+export class CreateUserDto {
+  @V.IsEmail()
+  @Field()
+  email: string;
+
+  @V.IsOptional()
+  @V.IsString()
+  @Field()
+  name: string;
+
+  @V.IsOptional()
+  @V.IsString()
+  @Field({ nullable: true })
+  password: string;
+
+  @V.IsOptional()
+  @Field(() => GraphQLUpload, { nullable: true })
+  avatar?: FileUpload | string;
+}
+
+@InputType()
+export class UpdateUserDto extends PartialType(OmitType(CreateUserDto, ['password'])) {}
+
 @DTORelations(() => UserDTO)
 @AppDtoDecorators(() => UserDTO)
 export class UserDTO extends UserEntity {}
+
+export class UserCrudResolver {
+  static forFeature(config?: CrudResolverConfig) {
+    const { resolver = {}, imports = [] } = config || {};
+    return NestjsQueryGraphQLModule.forFeature({
+      imports: [NestjsQueryTypeOrmModule.forFeature([UserEntity]), ...imports],
+      services: config.services,
+      resolvers: [
+        {
+          DTOClass: UserDTO,
+          EntityClass: UserEntity,
+          CreateDTOClass: CreateUserDto,
+          create: { disabled: true },
+          update: { many: { disabled: true } },
+          delete: { many: { disabled: true } },
+          ...resolver
+        }
+      ]
+    });
+  }
+}
