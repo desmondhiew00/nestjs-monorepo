@@ -1,51 +1,10 @@
-import color from 'chalk';
 import { execSync } from 'child_process';
+import { Command } from 'commander';
+const inquirer = require('inquirer');
+
 import _ from 'lodash';
 
-const run = () => {
-  try {
-    const args = process.argv;
-    args.splice(0, 2);
-
-    const schematic = _.get(args, '0') || '';
-    const name = _.get(args, '1') || '';
-
-    args.splice(0, 2);
-    const options = _.join(args, ' ');
-    let path = '';
-
-    if (!schematic) throw new Error("missing required argument 'schematic'");
-
-    _.map(customPath, (values, dir) => {
-      if (_.includes(values, schematic)) {
-        path = dir;
-      }
-    });
-
-    if (path && !name) throw new Error("missing required argument 'name'");
-
-    const command = `nest generate --no-spec ${options} ${schematic} ${name} ${path} && yarn lint`;
-    execSync(command, { stdio: 'inherit' });
-  } catch (e) {
-    /* eslint-disable no-console */
-    console.log(`\n`);
-    console.log(`${log.errorTag} ${e.message}`);
-    console.log(log.usage);
-    console.log(`Reference: ${log.url('https://docs.nestjs.com/cli/usages#nest-generate')}`);
-    console.log(`\n`);
-    /* eslint-enable no-console */
-  }
-};
-
-const usageExp = 'generate <schematic> [name] [options]';
-
-const log = {
-  errorTag: color.bgRed(color.white(`  Error  `)),
-  url: (val: string) => color.underline(color.yellow(val)),
-  usage: `Usage: ${color.greenBright(usageExp)}`
-};
-
-const customPath = {
+const prePath = {
   modules: [
     'module',
     'mo',
@@ -74,4 +33,53 @@ const customPath = {
   interceptors: ['interceptor', 'itc']
 };
 
-run();
+class GenerateCommand {
+  public load(program: Command) {
+    // .command('generate <schematic> [name] [path]')
+    program
+      .argument('<schematic>')
+      .argument('[name]')
+      .option('-d, --dry-run', 'Report actions that would be taken without writing out results.')
+      .option('-p, --project [project]', 'Project in which to generate files.')
+      .option('--spec', 'Enforce spec files generation.', false)
+      .action(async (schematic: string, name: string) => {
+        let moduleName = name;
+        if (!moduleName) {
+          const response = await inquirer.prompt([
+            { type: 'input', name: 'answer', message: `What name would you like to use for the ${schematic}?` }
+          ]);
+          moduleName = response.answer;
+        }
+        if (!moduleName) return;
+
+        const command = program.opts();
+        const options = [];
+        options.push({ name: 'dry-run', value: !!command.dryRun });
+        options.push({ name: 'project', value: command.project });
+        options.push({ name: 'spec', value: !!command.spec });
+        options.push({ name: 'no-spec', value: !command.spec });
+
+        let customPath = '';
+        _.map(prePath, (values, dir) => {
+          if (_.includes(values, schematic)) {
+            customPath = dir;
+          }
+        });
+
+        const optAry = _.map(options, (o) => {
+          const val = _.isString(o.value) ? o.value : '';
+          if (o.value) return `--${o.name} ${val}`;
+          return '';
+        });
+        const opt = _.join(optAry, ' ');
+
+        const customCommand = `nest generate ${schematic} ${moduleName} ${customPath || ''} ${opt} && yarn lint`;
+        execSync(customCommand, { stdio: 'inherit' });
+      });
+  }
+}
+
+const command = new Command();
+const generateCli = new GenerateCommand();
+generateCli.load(command);
+command.parse();
