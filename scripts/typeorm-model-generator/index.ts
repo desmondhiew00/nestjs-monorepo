@@ -133,14 +133,16 @@ const renameFiles = async () => {
             \n
             export class ${modelName}CrudResolver {
               static forFeature(config?: CrudResolverConfig) {
-                const { resolver = {}, imports = [] } = config || {};
+                const { resolver = {}, imports = [], services = [] } = config || {};
                 return NestjsQueryGraphQLModule.forFeature({
                   imports: [NestjsQueryTypeOrmModule.forFeature([${modelName}Entity]), ...imports],
-                  services: config.services,
+                  services,
                   resolvers: [
                     {
                       DTOClass: ${modelName}DTO,
                       EntityClass: ${modelName}Entity,
+                      CreateDTOClass: Create${modelName}Dto,
+                      UpdateDTOClass: Update${modelName}Dto,
                       create: { many: { disabled: true } },
                       update: { many: { disabled: true } },
                       delete: { many: { disabled: true } },

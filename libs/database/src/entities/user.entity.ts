@@ -101,10 +101,10 @@ export class UserDTO extends UserEntity {}
 
 export class UserCrudResolver {
   static forFeature(config?: CrudResolverConfig) {
-    const { resolver = {}, imports = [] } = config || {};
+    const { resolver = {}, imports = [], services = [] } = config || {};
     return NestjsQueryGraphQLModule.forFeature({
       imports: [NestjsQueryTypeOrmModule.forFeature([UserEntity]), ...imports],
-      services: config.services,
+      services,
       resolvers: [
         {
           DTOClass: UserDTO,

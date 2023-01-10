@@ -1,5 +1,5 @@
+import chalk from 'chalk';
 import { capitalCase } from 'change-case';
-import { bold, cyanBright, greenBright, magentaBright, underline } from 'colorette';
 import path from 'path';
 
 interface Options {
@@ -16,20 +16,20 @@ export const printNestApplicationDetails = (port: number, options?: Options) => 
   /* eslint-disable no-console*/
   console.log('\n');
   console.log(`--------------------------- [${title(appName)}] --------------------------`);
-  console.log(`${cyanBright(`[Application]`)} listening at ${logUrl(url)}`);
+  console.log(`${chalk.cyanBright(`[Application]`)} listening at ${logUrl(url)}`);
   if (swaggerUrl) {
-    console.log(`${greenBright('[Swagger]')} listening at ${logUrl(swaggerUrl)}`);
+    console.log(`${chalk.greenBright('[Swagger]')} listening at ${logUrl(swaggerUrl)}`);
   }
   if (gqlPlaygroundUrl) {
-    console.log(`${magentaBright('[GraphQL Playground]')} listening at ${logUrl(gqlPlaygroundUrl)}`);
+    console.log(`${chalk.magentaBright('[GraphQL Playground]')} listening at ${logUrl(gqlPlaygroundUrl)}`);
   }
   /* eslint-enable */
 };
 
 /* ---------------------------- Helper Functions ---------------------------- */
 
-const title = (val: string) => bold(cyanBright(val));
-const logUrl = (val: string) => underline(greenBright(val));
+const title = (val: string) => chalk.bold.cyanBright(val);
+const logUrl = (val: string) => chalk.underline.greenBright(val);
 
 const formatDir = (val: string) => {
   if (val.charAt(0) === '/') return val;

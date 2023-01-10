@@ -122,6 +122,7 @@ $ yarn generate resource --no-spec
 1. export sql from [dbdiagram.io](https://dbdiagram.io/) 
 <!-- (make sure table column type is correct) -->
 <!-- (make sure table foreign key relation is defined) -->
+<!-- (check column is it nullable) -->
 1. run the exported sql (create tables to database)
 2. update `.env` database config
 3. $ yarn generate:entities

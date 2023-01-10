@@ -1,5 +1,5 @@
+import color from 'chalk';
 import { execSync } from 'child_process';
-import * as color from 'colorette';
 import _ from 'lodash';
 
 const run = () => {
