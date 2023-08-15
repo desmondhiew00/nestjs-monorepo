@@ -1,0 +1,12 @@
+import { applyDecorators, createParamDecorator, ExecutionContext, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { getRequestFromContext, JwtAuthGuard } from '@app/guards/auth.guard';
+
+export const AuthUser = createParamDecorator((_data: unknown, ctx: ExecutionContext) => {
+  const request = getRequestFromContext(ctx);
+  return request.user;
+});
+
+export const UseJwtAuthGuard = () => {
+  return applyDecorators(ApiBearerAuth(), UseGuards(JwtAuthGuard));
+};

@@ -1,0 +1,4 @@
+# config.sh
+
+PREFIX="dev"
+GIT_BRANCH="master"

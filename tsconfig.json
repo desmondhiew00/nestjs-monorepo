@@ -1,0 +1,129 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "target": "es2022",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "moduleResolution": "Node",
+    "maxNodeModuleJsDepth": 10,
+    "allowJs": true,
+    "paths": {
+      "@app/*": [
+        "apps/app/src/*"
+      ],
+      "@scheduler/*": [
+        "apps/scheduler/src/*"
+      ],
+      "@referral/*": [
+        "apps/referral/src/*"
+      ],
+      "@rider/*": [
+        "apps/rider/src/*"
+      ],
+      "@staff/*": [
+        "apps/staff/src/*"
+      ],
+      "@admin/*": [
+        "apps/admin/src/*"
+      ],
+      "@db": [
+        "libs/database/src"
+      ],
+      "@db/*": [
+        "libs/database/src/*"
+      ],
+      "@utils": [
+        "libs/utils/src"
+      ],
+      "@utils/*": [
+        "libs/utils/src/*"
+      ],
+      "@lib/database": [
+        "libs/database/src"
+      ],
+      "@lib/database/*": [
+        "libs/database/src/*"
+      ],
+      "@lib/aws": [
+        "libs/aws/src"
+      ],
+      "@lib/aws/*": [
+        "libs/aws/src/*"
+      ],
+      "@lib/sendgrid": [
+        "libs/sendgrid/src"
+      ],
+      "@lib/sendgrid/*": [
+        "libs/sendgrid/src/*"
+      ],
+      "@lib/firebase": [
+        "libs/firebase/src"
+      ],
+      "@lib/firebase/*": [
+        "libs/firebase/src/*"
+      ],
+      "@lib/logger": [
+        "libs/logger/src"
+      ],
+      "@lib/logger/*": [
+        "libs/logger/src/*"
+      ],
+      "@lib/encryption": [
+        "libs/encryption/src"
+      ],
+      "@lib/encryption/*": [
+        "libs/encryption/src/*"
+      ],
+      "@lib/utils": [
+        "libs/utils/src"
+      ],
+      "@lib/utils/*": [
+        "libs/utils/src/*"
+      ],
+      "@lib/onewaysms": [
+        "libs/onewaysms/src"
+      ],
+      "@lib/onewaysms/*": [
+        "libs/onewaysms/src/*"
+      ],
+      "@lib/mailer": [
+        "libs/mailer/src"
+      ],
+      "@lib/mailer/*": [
+        "libs/mailer/src/*"
+      ],
+      "@lib/notifications": [
+        "libs/notifications/src"
+      ],
+      "@lib/notifications/*": [
+        "libs/notifications/src/*"
+      ],
+      "@lib/auth": [
+        "libs/auth/src"
+      ],
+      "@lib/auth/*": [
+        "libs/auth/src/*"
+      ],
+      "@lib/revenue-monster": [
+        "libs/revenue-monster/src"
+      ],
+      "@lib/revenue-monster/*": [
+        "libs/revenue-monster/src/*"
+      ]
+    }
+  }
+}

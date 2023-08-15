@@ -1,0 +1,14 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryService } from '@nestjs-query/core';
+import { TypeOrmQueryService } from '@nestjs-query/query-typeorm';
+import { Repository } from 'typeorm';
+import { {{moduleName}}Entity } from '@db/entities/{{sourceFileName}}';
+
+@Injectable()
+@QueryService({{moduleName}}Entity)
+export class {{moduleName}}Service extends TypeOrmQueryService<{{moduleName}}Entity> {
+  constructor(@InjectRepository({{moduleName}}Entity) newsRepo: Repository<{{moduleName}}Entity>) {
+    super(newsRepo, { useSoftDelete: true });
+  }
+}

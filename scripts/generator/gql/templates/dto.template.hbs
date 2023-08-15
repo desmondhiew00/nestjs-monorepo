@@ -1,0 +1,55 @@
+import { Field, GraphQLISODateTime, InputType, Int, ObjectType, PartialType } from '@nestjs/graphql';
+import { FilterableField, IDField } from '@nestjs-query/query-graphql';
+import { DTOBaseDecorators, DTORelations, GqlHasManyUnpaged, GqlHasOne } from '@db/base';
+{{#if enumImport}}
+import { {{enumImport}} } from '@db/enums';
+{{/if}}
+{{#each relationsImport}}
+import { {{this.name}} } from '../{{this.file}}/{{this.path}}';
+{{/each}}
+{{#if relationsImport}}{{/if}}
+@DTORelations(() => {{moduleName}}DTO)
+@DTOBaseDecorators(() => {{moduleName}}DTO)
+@ObjectType('{{moduleName}}')
+export class {{moduleName}}DTO {
+{{#if hasId}}
+  @IDField(() => Int) id: number;
+
+{{/if}}
+{{#each columns}}
+  {{define_field}}
+{{/each}}
+{{#if hasRecorder}}
+
+  /* --------------------------------- Records -------------------------------- */
+  @FilterableField({ nullable: true })
+  createdBy: number | null;
+
+  @FilterableField({ nullable: true })
+  updatedBy: number | null;
+
+  deletedBy: number | null;
+{{/if}}
+{{#if hasTimestamp}}
+
+  /* ------------------------------- Timestamps ------------------------------- */
+  @FilterableField(() => GraphQLISODateTime) createdAt: Date;
+  @FilterableField(() => GraphQLISODateTime, { nullable: true }) updatedAt: Date;
+  @FilterableField(() => GraphQLISODateTime, { nullable: true }) deletedAt: Date;
+{{/if}}
+
+  /* -------------------------------- Relations ------------------------------- */
+{{#each relations}}
+  {{define_relation}}
+{{/each}}
+}
+
+@InputType()
+export class Create{{moduleName}}Dto {
+{{#each columns}}
+  {{define_input_field}}
+{{/each}}
+}
+
+@InputType()
+export class Update{{moduleName}}Dto extends PartialType(Create{{moduleName}}Dto) {}

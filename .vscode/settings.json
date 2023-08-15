@@ -1,0 +1,38 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": { "source.fixAll": true }
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": { "source.fixAll": true }
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": { "source.fixAll": true }
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": { "source.fixAll": true }
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": { "source.fixAll": true },
+    "editor.quickSuggestions": { "strings": true },
+    "editor.suggest.insertMode": "replace"
+  },
+  "files.exclude": {
+    "node_modules": true,
+    "temp-entity": true,
+    "**/*dist*": true,
+    "**/*coverage*": true,
+    "**/*node_modules": true,
+    "**/*package-lock.json*": true,
+    "**/*yarn.lock*": true
+  },
+  "cSpell.userWords": ["middlewares", "nestjs", "sendgrid"]
+}

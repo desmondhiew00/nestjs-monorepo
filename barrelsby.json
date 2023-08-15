@@ -1,0 +1,9 @@
+{
+  "directory": ["./libs/database/src/entities", "./libs/database/src/enums", "./libs/database/src/graphql"],
+  "delete": true,
+  "location": "top",
+  "name": "index",
+  "structure": "flat",
+  "singleQuotes": true,
+  "include": [".ts$"]
+}

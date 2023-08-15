@@ -1,0 +1,34 @@
+import { NestjsQueryGraphQLModule } from '@nestjs-query/query-graphql';
+import { NestjsQueryTypeOrmModule } from '@nestjs-query/query-typeorm';
+import { {{moduleName}}Entity } from '@lib/database/entities/{{sourceFileName}}';
+import { GqlCrudModuleConfig } from '@lib/database/types';
+
+import { {{moduleName}}DTO, Create{{moduleName}}Dto, Update{{moduleName}}Dto } from './{{filename}}.dto';
+import { {{moduleName}}Service } from './{{filename}}.service';
+
+export class {{moduleName}}GqlCrudModule {
+  static forFeature(config?: GqlCrudModuleConfig) {
+    const { resolver = {}, imports = [], services = [], assemblers, dtos, pubSub, readOnly = false } = config || {};
+
+    return NestjsQueryGraphQLModule.forFeature({
+      imports: [NestjsQueryTypeOrmModule.forFeature([{{moduleName}}Entity]), ...imports],
+      services: [...services, {{moduleName}}Service],
+      assemblers,
+      dtos,
+      pubSub,
+      resolvers: [
+        {
+          DTOClass: {{moduleName}}DTO,
+          EntityClass: {{moduleName}}Entity,
+          ServiceClass: {{moduleName}}Service,
+          CreateDTOClass: Create{{moduleName}}Dto,
+          UpdateDTOClass: Update{{moduleName}}Dto,
+          create: readOnly ? { disabled: true } : { many: { disabled: true } },
+          update: readOnly ? { disabled: true } : { many: { disabled: true } },
+          delete: readOnly ? { disabled: true } : { many: { disabled: true } },
+          ...resolver
+        }
+      ]
+    });
+  }
+}
