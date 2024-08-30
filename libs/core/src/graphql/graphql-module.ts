@@ -2,7 +2,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import type { Prisma } from '@prisma/client';
-import { DynamicClientExtensionThis } from 'generated/client/runtime/library';
+import { DynamicClientExtensionThis } from '@prisma/client/runtime/library';
 
 export class GqlModule {
   static forRoot(

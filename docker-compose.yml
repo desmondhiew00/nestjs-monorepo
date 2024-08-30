@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  admin-api:
+    container_name: admin-api
+    restart: always
+    ports:
+      - '4100:4100'
+    env_file:
+      - .env
+    build:
+      dockerfile: ./apps/admin-api/Dockerfile

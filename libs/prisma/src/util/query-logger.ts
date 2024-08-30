@@ -1,5 +1,5 @@
-import type { PrismaClient } from 'generated/client';
-import type { DefaultArgs } from 'generated/client/runtime/library';
+import type { PrismaClient } from '@prisma/client';
+import type { DefaultArgs } from '@prisma/client/runtime/library';
 import { Signale } from 'signale';
 
 const log = new Signale({
