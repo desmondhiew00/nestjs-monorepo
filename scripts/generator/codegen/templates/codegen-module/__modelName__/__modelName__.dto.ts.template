@@ -1,0 +1,11 @@
+import { Field, InputType } from "@nestjs/graphql";
+
+@InputType()
+export class Create<%= pascalCase(modelName) %>Input {
+  @Field() updatedAt: Date;
+}
+
+@InputType()
+export class Update<%= pascalCase(modelName) %>Input {
+  @Field({ nullable: true }) updatedAt?: Date;
+}

@@ -1,0 +1,9 @@
+{
+  "files.exclude": {
+    "generated/graphql/**/*": true,
+    "generated/client/**/*": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "always"
+  },
+}

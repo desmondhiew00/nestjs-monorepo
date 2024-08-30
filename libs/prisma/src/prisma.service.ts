@@ -1,0 +1,30 @@
+import { Injectable, type OnModuleInit } from '@nestjs/common';
+import { PrismaClient } from 'generated/client';
+import { SoftDeleteExtension } from './extensions/soft-delete.extension';
+import { useQueryLogger } from './util/query-logger';
+
+const client = new PrismaClient({
+  log: [{ emit: 'event', level: 'query' }],
+});
+useQueryLogger(client);
+
+export const prismaClient = client.$extends(SoftDeleteExtension);
+
+@Injectable()
+export class PrismaService extends PrismaClient implements OnModuleInit {
+  readonly extendedClient = prismaClient;
+
+  constructor() {
+    super({ datasourceUrl: '', datasources: { db: { url: '' } } });
+    return new Proxy(this, {
+      get: (target: any, key: string) => Reflect.get(key in prismaClient ? prismaClient : target, key),
+    });
+  }
+  async onModuleInit() {
+    await this.$connect();
+  }
+
+  async onModuleDestroy() {
+    await this.$disconnect();
+  }
+}

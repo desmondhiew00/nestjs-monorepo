@@ -1,0 +1,6 @@
+# Default configuration for deployment scripts
+
+host="ec2-xxx.compute.amazonaws.com"
+pem_file="/Users/xxx/ssh/xxx.pem"
+user="ubuntu"
+to="/home/ubuntu"
