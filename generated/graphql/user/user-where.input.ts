@@ -4,6 +4,7 @@ import { IntFilter } from '../prisma/int-filter.input';
 import { StringFilter } from '../prisma/string-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
+import { PostListRelationFilter } from '../post/post-list-relation-filter.input';
 
 @InputType()
 export class UserWhereInput {
@@ -31,4 +32,7 @@ export class UserWhereInput {
 
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: DateTimeFilter;
+
+    @Field(() => PostListRelationFilter, {nullable:true})
+    posts?: PostListRelationFilter;
 }

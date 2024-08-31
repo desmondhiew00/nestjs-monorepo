@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import * as fs from 'fs';
 
 (async () => {
   const generatedSrc = 'generated/graphql';

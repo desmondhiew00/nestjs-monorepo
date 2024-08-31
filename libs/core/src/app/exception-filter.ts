@@ -1,4 +1,12 @@
-import { ArgumentsHost, Catch, ForbiddenException, Logger, PreconditionFailedException } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  Catch,
+  ForbiddenException,
+  Logger,
+  NotFoundException,
+  PreconditionFailedException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { JsonWebTokenError } from 'jsonwebtoken';
 import get from 'lodash/get';
@@ -10,21 +18,33 @@ export class AppExceptionsFilter extends BaseExceptionFilter {
   private readonly logger = new Logger('Error');
 
   override catch(exception: Error | PreconditionFailedException, host: ArgumentsHost) {
-    this.logger.error(exception, exception.stack);
     const contextType = host.getType() as string;
+    let stack = true;
 
-    if (exception instanceof JsonWebTokenError) {
-      exception = new ForbiddenException('Invalid Token');
+    switch (exception.constructor) {
+      case JsonWebTokenError:
+        exception = new ForbiddenException('Invalid Token');
+        break;
+      case PreconditionFailedException:
+        const errorMessages = get(exception, 'response.message') || exception.message;
+        if (isArray(errorMessages)) {
+          exception = new PreconditionFailedException(JSON.stringify(errorMessages));
+        }
+        stack = false;
+        break;
+      case UnauthorizedException:
+      case NotFoundException:
+      case ForbiddenException:
+        stack = false;
+        break;
+      default:
+        break;
     }
 
-    if (exception instanceof PreconditionFailedException) {
-      const errorMessages = get(exception, 'response.message') || exception.message;
-      if (isArray(errorMessages)) return new Error(JSON.stringify(errorMessages));
-      return new Error(exception.message);
-    }
+    this.logger.error(exception, stack ? exception.stack : undefined);
 
     if (contextType === 'graphql') {
-      return new PrismaError(exception);
+      throw new PrismaError(exception);
     }
 
     super.catch(exception, host);

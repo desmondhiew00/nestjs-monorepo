@@ -4,6 +4,6 @@
     "declaration": false,
     "outDir": "../../dist/apps/admin-api"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "generated/**/*"],
   "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
 }

@@ -1,6 +1,8 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
+import { Post } from '../post/post.model';
+import { UserCount } from './user-count.output';
 
 @ObjectType()
 export class User {
@@ -19,4 +21,10 @@ export class User {
 
     @Field(() => Date, {nullable:false})
     updatedAt!: Date;
+
+    @Field(() => [Post], {nullable:true})
+    posts?: Array<Post>;
+
+    @Field(() => UserCount, {nullable:false})
+    _count?: UserCount;
 }

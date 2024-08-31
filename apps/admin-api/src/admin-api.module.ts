@@ -8,6 +8,7 @@ import { AdminApiController } from './admin-api.controller';
 import { AdminApiResolver } from './admin-api.resolver';
 import { AdminApiService } from './admin-api.service';
 import * as Config from './config';
+import { ModelModule } from './modules/model/model.module';
 import { UserModule } from './modules/user/user.module';
 
 @Module({
@@ -20,6 +21,7 @@ import { UserModule } from './modules/user/user.module';
       accessTokenSecret: getEnv<Config.EnvConfig>('ACCESS_TOKEN_SECRET') || '',
       refreshTokenSecret: getEnv<Config.EnvConfig>('REFRESH_TOKEN_SECRET') || '',
     }),
+    ModelModule,
     UserModule,
   ],
   controllers: [AdminApiController],
