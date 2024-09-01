@@ -9,8 +9,7 @@ import {
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { JsonWebTokenError } from 'jsonwebtoken';
-import get from 'lodash/get';
-import isArray from 'lodash/isArray';
+import { get, isArray } from 'lodash';
 import { PrismaError } from '../utils/prisma';
 
 @Catch()
