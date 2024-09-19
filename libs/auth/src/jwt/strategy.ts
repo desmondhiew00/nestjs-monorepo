@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt, Strategy as JWTStrategy, WithSecretOrKey } from 'passport-jwt';
+
 import type { Request } from 'express';
+import { ExtractJwt, Strategy as JWTStrategy, WithSecretOrKey } from 'passport-jwt';
 
 export interface JwtAuthStrategyOptions extends Partial<WithSecretOrKey> {
   validate?: <T>(req: Request, payload: T) => Promise<T> | T;

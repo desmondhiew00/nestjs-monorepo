@@ -2,12 +2,14 @@ import { HttpStatus, ValidationPipe } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
 import * as cookieParser from 'cookie-parser';
+import * as path from 'path';
+import * as signale from 'signale';
 import { NextFunction, Request, Response } from 'express';
 import { graphqlUploadExpress } from 'graphql-upload-minimal';
 import helmet from 'helmet';
-import * as path from 'path';
-import * as signale from 'signale';
+
 import { AppExceptionsFilter } from './exception-filter';
 
 const isProduction = process.env.NODE_ENV === 'production';

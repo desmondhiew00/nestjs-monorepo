@@ -1,5 +1,7 @@
-import { PrismaService } from '@app/prisma';
 import { Injectable } from '@nestjs/common';
+
+import { PrismaService } from '@app/prisma';
+
 import { PrismaSelect } from '@paljs/plugins';
 import { FindManyUserArgs, FindUniqueUserArgs } from 'generated/graphql';
 import { GraphQLResolveInfo } from 'graphql';

@@ -1,5 +1,7 @@
 import { Injectable, type OnModuleInit } from '@nestjs/common';
+
 import { PrismaClient } from '@prisma/client';
+
 import { SoftDeleteExtension } from './extensions/soft-delete.extension';
 import { useQueryLogger } from './util/query-logger';
 

@@ -1,4 +1,5 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
+
 import { AwsS3Service, S3UploadConfig } from './aws-s3.service';
 
 @Global()

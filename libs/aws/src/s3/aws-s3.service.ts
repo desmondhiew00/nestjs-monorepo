@@ -1,3 +1,7 @@
+import { Injectable } from '@nestjs/common';
+
+import * as mime from 'mime-types';
+import * as path from 'path';
 import {
   CompleteMultipartUploadCommandOutput,
   DeleteObjectCommand,
@@ -12,11 +16,8 @@ import {
 } from '@aws-sdk/client-s3';
 import { BodyDataTypes, Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { Injectable } from '@nestjs/common';
 import { FileUpload } from 'graphql-upload-minimal';
-import * as mime from 'mime-types';
 import 'multer';
-import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface S3UploadConfig {

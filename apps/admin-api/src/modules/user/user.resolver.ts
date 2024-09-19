@@ -1,7 +1,10 @@
-import { CreateFindManyResultType } from '@app/prisma';
 import { Args, Info, Query, Resolver } from '@nestjs/graphql';
+
+import { CreateFindManyResultType } from '@app/prisma';
+
 import { FindManyUserArgs, FindUniqueUserArgs, User } from 'generated/graphql';
 import { GraphQLResolveInfo } from 'graphql';
+
 import { UseJwtAuthGuard } from '../auth';
 import { UserService } from './user.service';
 

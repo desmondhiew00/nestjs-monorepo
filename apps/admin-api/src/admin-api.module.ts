@@ -1,25 +1,27 @@
+import { Module } from '@nestjs/common';
+
 import { JwtAuthModule } from '@app/auth/jwt';
-import { EnvConfigModule, envSchema, getEnv } from '@app/core/env';
+import { EnvConfigModule } from '@app/core/env';
 import { GqlModule } from '@app/core/graphql';
 import { LoggerModule } from '@app/logger';
-import { prismaClient, PrismaModule } from '@app/prisma';
-import { Module } from '@nestjs/common';
+import { PrismaModule, prismaClient } from '@app/prisma';
+
 import { AdminApiController } from './admin-api.controller';
 import { AdminApiResolver } from './admin-api.resolver';
 import { AdminApiService } from './admin-api.service';
-import * as Config from './config';
+import { JWT_AUTH_NAME, LOGGER_DIR, envSchema, getEnv } from './config';
 import { ModelModule } from './modules/model/model.module';
 import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
-    EnvConfigModule.forRoot(envSchema.base, envSchema.jwt),
-    LoggerModule.forRoot(Config.LOGGER_DIR),
+    EnvConfigModule.forRoot(envSchema),
+    LoggerModule.forRoot(LOGGER_DIR),
     PrismaModule,
     GqlModule.forRoot(prismaClient),
-    JwtAuthModule.forRoot(Config.JWT_AUTH_NAME, {
-      accessTokenSecret: getEnv<Config.EnvConfig>('ACCESS_TOKEN_SECRET') || '',
-      refreshTokenSecret: getEnv<Config.EnvConfig>('REFRESH_TOKEN_SECRET') || '',
+    JwtAuthModule.forRoot(JWT_AUTH_NAME, {
+      accessTokenSecret: getEnv('ACCESS_TOKEN_SECRET') || '',
+      refreshTokenSecret: getEnv('REFRESH_TOKEN_SECRET') || '',
     }),
     ModelModule,
     UserModule,

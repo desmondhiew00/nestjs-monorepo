@@ -8,8 +8,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
+
 import { JsonWebTokenError } from 'jsonwebtoken';
 import { get, isArray } from 'lodash';
+
 import { PrismaError } from '../utils/prisma';
 
 @Catch()

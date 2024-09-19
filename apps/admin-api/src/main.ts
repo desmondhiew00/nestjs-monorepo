@@ -1,7 +1,9 @@
-import { initServer } from '@app/core';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+
+import { initServer } from '@app/core';
+
 import { AdminApiModule } from './admin-api.module';
 
 async function bootstrap() {

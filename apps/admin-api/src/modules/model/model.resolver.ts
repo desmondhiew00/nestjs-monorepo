@@ -1,4 +1,5 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+
 import { Post, User } from 'generated/graphql';
 
 @Resolver(User)

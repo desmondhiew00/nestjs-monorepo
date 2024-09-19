@@ -1,8 +1,9 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { JwtModule, JwtService } from '@nestjs/jwt';
+
+import { getAuthConfigName, getServiceName } from './config';
 import { JwtAuthService } from './jwt-auth.service';
 import { JwtAuthStrategyOptions, createJwtAuthStrategy } from './strategy';
-import { getAuthConfigName, getServiceName } from './config';
 
 export interface JwtAuthConfig {
   accessTokenSecret: string;

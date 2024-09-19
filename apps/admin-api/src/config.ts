@@ -1,6 +1,22 @@
-import type { BaseEnv, JwtEnv } from '@app/core/env';
+import { envCommonSchema } from '@app/core/env';
 
-export const LOGGER_DIR = 'admin-api';
+import * as Joi from 'joi';
+
+// Logs directory
+export const LOGGER_DIR = 'admin-web';
+
+// JWT auth name
 export const JWT_AUTH_NAME = 'admin-auth';
 
-export type EnvConfig = BaseEnv | JwtEnv;
+// Get env value helper
+export const getEnv = (env: EnvKey) => process.env[env as string];
+
+// .env validation schema
+export const envSchema = {
+  ...envCommonSchema.base,
+  ...envCommonSchema['aws-s3'],
+  ...envCommonSchema['jwt-auth'],
+  SENDGRID_API_KEY: Joi.string().required(),
+};
+
+type EnvKey = keyof typeof envSchema;

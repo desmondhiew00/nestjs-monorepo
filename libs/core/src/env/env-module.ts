@@ -1,5 +1,6 @@
 import { DynamicModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+
 import * as joi from 'joi';
 import * as path from 'path';
 
@@ -15,7 +16,7 @@ export class EnvConfigModule {
     }
 
     return ConfigModule.forRoot({
-      envFilePath: [`apps/${appName}/.env`],
+      envFilePath: [`.env`, `apps/${appName}/.env`],
       isGlobal: true,
       validationSchema: joi.object(validationSchema),
     });

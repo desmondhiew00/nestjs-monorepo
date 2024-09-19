@@ -1,5 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { DynamicModule } from '@nestjs/common';
+
 import { LoggerService, Options } from './logger.service';
 
 @Global()
