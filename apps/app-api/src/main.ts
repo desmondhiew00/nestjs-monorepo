@@ -6,4 +6,5 @@ async function bootstrap() {
   const app = await NestFactory.create(AppApiModule);
   await app.listen(3000);
 }
-bootstrap();
+
+void bootstrap();

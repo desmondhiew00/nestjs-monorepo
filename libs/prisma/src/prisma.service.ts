@@ -18,7 +18,9 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
   constructor() {
     super({ datasourceUrl: '', datasources: { db: { url: '' } } });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return new Proxy(this, {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       get: (target: any, key: string) => Reflect.get(key in prismaClient ? prismaClient : target, key),
     });
   }

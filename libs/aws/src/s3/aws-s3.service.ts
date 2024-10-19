@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
 
-import * as mime from 'mime-types';
-import * as path from 'path';
 import {
   CompleteMultipartUploadCommandOutput,
   DeleteObjectCommand,
@@ -17,7 +15,9 @@ import {
 import { BodyDataTypes, Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { FileUpload } from 'graphql-upload-minimal';
+import * as mime from 'mime-types';
 import 'multer';
+import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface S3UploadConfig {
@@ -51,7 +51,7 @@ export class AwsS3Service {
     this.s3Url = `https://${config.bucketName}.s3.${config.region}.amazonaws.com`;
 
     // Exp: /dev, /prod, etc
-    this.prefix = (this.config.prefix || '').replace(/\//g, '');
+    this.prefix = (this.config.prefix ?? '').replace(/\//g, '');
     // this.clientUrl += `/${this.prefix}`;
   }
 
@@ -83,12 +83,12 @@ export class AwsS3Service {
    */
   async getSignedUrl(key: string, operation: 'get' | 'put' = 'get', options: SignOptions = {}): Promise<string> {
     const Key = this.addPrefix(key);
-    const expiresIn = options.expiresIn || 5 * 60; // 5 minutes
+    const expiresIn = options.expiresIn ?? 5 * 60; // 5 minutes
 
     let command: GetObjectCommand | PutObjectCommand;
     if (operation === 'put') {
-      const ACL = options.acl || 'public-read';
-      const ContentType = options.contentType || undefined;
+      const ACL = options.acl ?? 'public-read';
+      const ContentType = options.contentType ?? undefined;
       command = new PutObjectCommand({
         Bucket: this.config.bucketName,
         Key,
@@ -158,12 +158,13 @@ export class AwsS3Service {
     key: string,
     acl: ObjectCannedACL = 'public-read',
   ): Promise<CompleteMultipartUploadCommandOutput> {
-    const { filename, mimetype, createReadStream } = await gqlFile;
+    const file = await gqlFile;
+    const { filename, mimetype } = file;
     const contentType = mime.lookup(filename) || mimetype;
     const uploadParams: PutObjectCommandInput = {
       Bucket: this.config.bucketName,
       Key: this.addPrefix(path.join('/', folder, key)),
-      Body: createReadStream(),
+      Body: file.createReadStream(),
       ContentType: contentType,
       ACL: acl,
     };

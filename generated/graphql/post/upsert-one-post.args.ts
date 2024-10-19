@@ -5,6 +5,7 @@ import { PostWhereUniqueInput } from './post-where-unique.input';
 import { Type } from 'class-transformer';
 import { PostCreateInput } from './post-create.input';
 import { PostUpdateInput } from './post-update.input';
+import { RelationLoadStrategy } from '../prisma/relation-load-strategy.enum';
 
 @ArgsType()
 export class UpsertOnePostArgs {
@@ -20,4 +21,7 @@ export class UpsertOnePostArgs {
     @Field(() => PostUpdateInput, {nullable:false})
     @Type(() => PostUpdateInput)
     update!: PostUpdateInput;
+
+    @Field(() => RelationLoadStrategy, {nullable:true})
+    relationLoadStrategy?: keyof typeof RelationLoadStrategy;
 }

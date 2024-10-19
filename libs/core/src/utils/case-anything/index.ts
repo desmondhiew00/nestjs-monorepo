@@ -182,7 +182,7 @@ export function pathCase(
   options: { keepSpecialCharacters?: boolean; keep?: string[] } = { keepSpecialCharacters: true },
 ): string {
   return splitAndPrefix(string, options).reduce((result, word, i) => {
-    const prefix = i === 0 || word[0] === '/' ? '' : '/';
+    const prefix = i === 0 || word.startsWith('/') ? '' : '/';
     return result + prefix + word;
   }, '');
 }

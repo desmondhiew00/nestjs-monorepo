@@ -20,8 +20,8 @@ import { UserModule } from './modules/user/user.module';
     PrismaModule,
     GqlModule.forRoot(prismaClient),
     JwtAuthModule.forRoot(JWT_AUTH_NAME, {
-      accessTokenSecret: getEnv('ACCESS_TOKEN_SECRET') || '',
-      refreshTokenSecret: getEnv('REFRESH_TOKEN_SECRET') || '',
+      accessTokenSecret: getEnv('ACCESS_TOKEN_SECRET') ?? '',
+      refreshTokenSecret: getEnv('REFRESH_TOKEN_SECRET') ?? '',
     }),
     ModelModule,
     UserModule,

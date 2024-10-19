@@ -3,12 +3,12 @@ import { HttpAdapterHost } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-import * as cookieParser from 'cookie-parser';
-import * as path from 'path';
-import * as signale from 'signale';
+import cookieParser from 'cookie-parser';
 import { NextFunction, Request, Response } from 'express';
 import { graphqlUploadExpress } from 'graphql-upload-minimal';
 import helmet from 'helmet';
+import * as path from 'path';
+import * as signale from 'signale';
 
 import { AppExceptionsFilter } from './exception-filter';
 
@@ -96,7 +96,7 @@ export const useExceptionHandler = (app: NestExpressApplication) => {
   app.useGlobalFilters(new AppExceptionsFilter(httpAdapter));
 };
 
-type AppInfo = { port: number; prefix: string; swaggerPath: string; graphqlPath: string };
+interface AppInfo { port: number; prefix: string; swaggerPath: string; graphqlPath: string }
 export const showAppInfo = (options: AppInfo) => {
   const baseUrl = `localhost:${options.port}`;
 
@@ -131,8 +131,8 @@ export const initServer = (app: NestExpressApplication, options?: InitServerOpti
     swaggerPath = '/swagger',
     graphqlPath = '/graphql',
     useCommonConfig = true,
-  } = options || {};
-  const { prefixExclude = [] } = options || {};
+  } = options ?? {};
+  const { prefixExclude = [] } = options ?? {};
 
   app.setGlobalPrefix(prefix, { exclude: prefixExclude });
   app.enableShutdownHooks();
@@ -150,5 +150,5 @@ export const initServer = (app: NestExpressApplication, options?: InitServerOpti
     useGraphql(app, graphqlPath, { maxFiles: 10, maxFileSize: 50_000_000 });
   }
 
-  app.listen(port, () => showAppInfo({ port, prefix, swaggerPath, graphqlPath }));
+  void app.listen(port, () => showAppInfo({ port, prefix, swaggerPath, graphqlPath }));
 };

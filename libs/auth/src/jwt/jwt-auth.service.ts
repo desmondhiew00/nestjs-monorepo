@@ -16,31 +16,31 @@ export class JwtAuthService {
     this.refreshTokenSecret = this.authConfig.refreshTokenSecret;
   }
 
-  async sign<T>(payload: T, options?: JwtSignOptions): Promise<string> {
+  sign<T>(payload: T, options?: JwtSignOptions): string {
     return this.jwtService.sign(payload as unknown as object, options);
   }
 
-  async verify<T extends object = any>(token: string, secret: string): Promise<T> {
+  verify<T extends object = any>(token: string, secret: string): T {
     return this.jwtService.verify<T>(token, { secret });
   }
 
-  async decode<T>(token: string) {
+  decode<T>(token: string) {
     return this.jwtService.decode<T>(token, { complete: true });
   }
 
-  async generateAccessToken<T>(data: T, options: JwtSignOptions = { expiresIn: '1h' }) {
+  generateAccessToken<T>(data: T, options: JwtSignOptions = { expiresIn: '1h' }) {
     return this.sign(data, { ...options, secret: this.accessTokenSecret });
   }
 
-  async generateRefreshToken<T>(data: T, options: JwtSignOptions = { expiresIn: '7d' }) {
+  generateRefreshToken<T>(data: T, options: JwtSignOptions = { expiresIn: '7d' }) {
     return this.sign(data, { ...options, secret: this.refreshTokenSecret });
   }
 
-  async verifyAccessToken<T extends object>(token: string) {
+  verifyAccessToken<T extends object>(token: string) {
     return this.verify<T>(token, this.accessTokenSecret);
   }
 
-  async verifyRefreshToken<T extends object>(token: string) {
+  verifyRefreshToken<T extends object>(token: string) {
     return this.verify<T>(token, this.refreshTokenSecret);
   }
 }

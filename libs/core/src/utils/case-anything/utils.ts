@@ -51,7 +51,7 @@ export function splitAndPrefix(
   string: string,
   options?: { keepSpecialCharacters?: boolean; keep?: string[]; prefix?: string },
 ): string[] {
-  const { keepSpecialCharacters = false, keep, prefix = '' } = options || {};
+  const { keepSpecialCharacters = false, keep, prefix = '' } = options ?? {};
   const normalString = string.trim().normalize('NFC');
   const hasSpaces = normalString.includes(' ');
   const split = hasSpaces ? spaceSplit : magicSplit;
@@ -90,7 +90,7 @@ export function splitAndPrefix(
       }
 
       // space based sentence was split on spaces, so only return found prefixes
-      if (!foundPrefix && prefix.match(/\s/)) {
+      if (!foundPrefix && /\s/.exec(prefix)) {
         // in this case we have no more found prefix, it was trimmed, but we're looking to add a space
         // so let's return that space
         return ' ' + part;
@@ -105,7 +105,7 @@ export function splitAndPrefix(
  * @returns the word with the first character in uppercase and the rest in lowercase
  */
 export function capitaliseWord(string: string): string {
-  const match = string.matchAll(magicSplit).next().value;
-  const firstLetterIndex = match ? match.index : 0;
+  const match = string.matchAll(magicSplit).next().value as RegExpMatchArray;
+  const firstLetterIndex = match ? (match.index ?? 0) : 0;
   return string.slice(0, firstLetterIndex + 1).toUpperCase() + string.slice(firstLetterIndex + 1).toLowerCase();
 }

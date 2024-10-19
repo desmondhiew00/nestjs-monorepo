@@ -21,17 +21,17 @@ export class GqlModule {
       introspection: true,
       context: ({ req, res }: never) => ({ req, res, prisma }),
       formatError: (error) => {
-        const { isArray, data } = isJsonArray(error.message);
-        return { message: isArray ? data : error.message };
+        const { isArray, data } = isJsonArray<string>(error.message);
+        return { message: isArray ? data ?? "Error" : error.message };
       },
       ...config,
     });
   }
 }
 
-const isJsonArray = (value: any) => {
+const isJsonArray = <T>(value: string) => {
   try {
-    const data = JSON.parse(value);
+    const data = JSON.parse(value) as T;
     return { isArray: Array.isArray(data), data };
   } catch {
     return { isArray: false, data: null };

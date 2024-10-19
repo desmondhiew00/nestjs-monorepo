@@ -7,6 +7,7 @@ import { Prisma } from '@prisma/client';
 import { PostWhereUniqueInput } from './post-where-unique.input';
 import { Int } from '@nestjs/graphql';
 import { PostScalarFieldEnum } from './post-scalar-field.enum';
+import { RelationLoadStrategy } from '../prisma/relation-load-strategy.enum';
 
 @ArgsType()
 export class FindFirstPostOrThrowArgs {
@@ -29,4 +30,7 @@ export class FindFirstPostOrThrowArgs {
 
     @Field(() => [PostScalarFieldEnum], {nullable:true})
     distinct?: Array<keyof typeof PostScalarFieldEnum>;
+
+    @Field(() => RelationLoadStrategy, {nullable:true})
+    relationLoadStrategy?: keyof typeof RelationLoadStrategy;
 }

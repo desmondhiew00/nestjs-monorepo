@@ -19,15 +19,16 @@ export class AppExceptionsFilter extends BaseExceptionFilter {
   private readonly logger = new Logger('Error');
 
   override catch(exception: Error | PreconditionFailedException, host: ArgumentsHost) {
-    const contextType = host.getType() as string;
+    const contextType = host.getType() as unknown as string;
     let stack = true;
+    let errorMessages = '';
 
     switch (exception.constructor) {
       case JsonWebTokenError:
         exception = new ForbiddenException('Invalid Token');
         break;
       case PreconditionFailedException:
-        const errorMessages = get(exception, 'response.message') || exception.message;
+        errorMessages = get(exception, 'response.message') ?? exception.message;
         if (isArray(errorMessages)) {
           exception = new PreconditionFailedException(JSON.stringify(errorMessages));
         }

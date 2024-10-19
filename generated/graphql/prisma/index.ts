@@ -21,6 +21,7 @@ export { NestedStringNullableFilter } from './nested-string-nullable-filter.inpu
 export { NestedStringNullableWithAggregatesFilter } from './nested-string-nullable-with-aggregates-filter.input';
 export { NestedStringWithAggregatesFilter } from './nested-string-with-aggregates-filter.input';
 export { NullsOrder } from './nulls-order.enum';
+export { RelationLoadStrategy } from './relation-load-strategy.enum';
 export { SortOrder } from './sort-order.enum';
 export { SortOrderInput } from './sort-order.input';
 export { StringFilter } from './string-filter.input';

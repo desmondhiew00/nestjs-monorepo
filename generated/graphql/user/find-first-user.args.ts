@@ -7,6 +7,7 @@ import { Prisma } from '@prisma/client';
 import { UserWhereUniqueInput } from './user-where-unique.input';
 import { Int } from '@nestjs/graphql';
 import { UserScalarFieldEnum } from './user-scalar-field.enum';
+import { RelationLoadStrategy } from '../prisma/relation-load-strategy.enum';
 
 @ArgsType()
 export class FindFirstUserArgs {
@@ -29,4 +30,7 @@ export class FindFirstUserArgs {
 
     @Field(() => [UserScalarFieldEnum], {nullable:true})
     distinct?: Array<keyof typeof UserScalarFieldEnum>;
+
+    @Field(() => RelationLoadStrategy, {nullable:true})
+    relationLoadStrategy?: keyof typeof RelationLoadStrategy;
 }

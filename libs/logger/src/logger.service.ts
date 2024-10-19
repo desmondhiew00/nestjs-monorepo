@@ -36,7 +36,7 @@ export class LoggerService implements NestLogger {
       ...options,
     });
 
-    if (process.env['NODE_ENV'] !== 'production') {
+    if (process.env.NODE_ENV !== 'production') {
       this.logger.add(this.createConsoleTransport());
     }
   }
@@ -46,7 +46,7 @@ export class LoggerService implements NestLogger {
       winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
       winston.format.errors({ stack: true }),
       winston.format.printf(({ timestamp, level, message, stack }) => {
-        const formattedMessage = stack ? `${message}\n${stack}` : message;
+        const formattedMessage = stack ? `${message}\n${stack}` : message as string;
         return `[${timestamp}] [${level}] ${formattedMessage}`;
       }),
     );
@@ -69,7 +69,7 @@ export class LoggerService implements NestLogger {
       format: winston.format.combine(
         winston.format.colorize(),
         winston.format.printf(({ timestamp, level, message, stack }) => {
-          const formattedMessage = stack ? `${message}\n${stack}` : message;
+          const formattedMessage = stack ? `${message}\n${stack}` : message as string;
           return `[${timestamp}] [${level}] ${formattedMessage}`;
         }),
       ),
@@ -77,7 +77,7 @@ export class LoggerService implements NestLogger {
   }
 
   private getLogMessage(message: LogError) {
-    return this.verify ? this.verify(message) || message : message;
+    return this.verify ? this.verify(message) ?? message : message;
   }
 
   public log(message: LogError) {
@@ -88,8 +88,8 @@ export class LoggerService implements NestLogger {
     this.logger.info(this.getLogMessage(message));
   }
 
-  public error(message: LogError, trace?: string) {
-    const logMsg = this.getLogMessage(message);
+  public async error(message: LogError, trace?: string) {
+    const logMsg = await this.getLogMessage(message);
     const exception = trace?.split(':')[0];
     this.logger.error(`${exception ? `[${exception}] ` : ''}${logMsg}`, {
       stack: trace,
