@@ -1,6 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 
+import crypto from 'crypto';
+import { type Jwt } from 'jsonwebtoken';
 import { JwtAuthConfig } from './jwt-auth.module';
 
 @Injectable()
@@ -42,5 +44,15 @@ export class JwtAuthService {
 
   verifyRefreshToken<T extends object>(token: string) {
     return this.verify<T>(token, this.refreshTokenSecret);
+  }
+
+  getExpirationDate(token: string) {
+    const decoded = this.jwtService.decode<Jwt>(token, { complete: true });
+    if (typeof decoded.payload === 'string') return null;
+    return decoded?.payload?.exp;
+  }
+
+  generateUniqueToken() {
+    return crypto.randomBytes(32).toString('base64url');
   }
 }
