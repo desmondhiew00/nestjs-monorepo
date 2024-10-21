@@ -38,7 +38,7 @@ const config = {
 
 module.exports = [
   {
-    ignores: ['**/eslint.config.js', '**/*.e2e-spec.ts'],
+    ignores: ['**/eslint.config.js', '**/*.e2e-spec.ts', "test.js"],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
