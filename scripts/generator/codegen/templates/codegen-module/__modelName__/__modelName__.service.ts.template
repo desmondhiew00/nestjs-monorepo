@@ -1,0 +1,51 @@
+import { PrismaService } from '<%= prismaClientImportSrc %>';
+import { FindMany<%= pascalCase(modelName) %>Args, FindUnique<%= pascalCase(modelName) %>Args } from '<%= gqlImportSrc %>';
+import { Injectable } from '@nestjs/common';
+import { PrismaSelect } from '@paljs/plugins';
+import { GraphQLResolveInfo } from 'graphql';
+<% if (withCrud) { %>
+import { AuthData } from "../auth";
+import { Create<%= pascalCase(modelName) %>Input, Update<%= pascalCase(modelName) %>Input } from "./<%= modelName %>.dto";
+<% } %>
+
+@Injectable()
+export class <%= pascalCase(modelName) %>Service {
+  constructor(private prisma: PrismaService) {}
+
+  async <%= plural(modelName) %>(args: FindMany<%= pascalCase(modelName) %>Args, info: GraphQLResolveInfo) {
+    const select = new PrismaSelect(info).value.select as Record<string, any>;;
+    const total = select.total ? await this.prisma.<%= singular(modelName) %>.count({ where: args.where }) : 0;
+    const data = await this.prisma.<%= singular(modelName) %>.findMany({ ...args, ...(select.data as object) });
+    return { total, data };
+  }
+
+  async <%= singular(modelName) %>(args: FindUnique<%= pascalCase(modelName) %>Args, info: GraphQLResolveInfo) {
+    const select = new PrismaSelect(info).value.select as Record<string, any>;;
+    return this.prisma.<%= singular(modelName) %>.findUnique({ where: args.where, select });
+  }
+
+<% if (withCrud) { %>
+  async create<%= pascalCase(modelName) %>(input: Create<%= pascalCase(modelName) %>Input, authData: AuthData, info: GraphQLResolveInfo) {
+    return this.prisma.<%= singular(modelName) %>.create({
+      data: { ...input, createdBy: authData.id },
+      select: new PrismaSelect(info).value.select as Record<string, any>,
+    });
+  }
+
+  async update<%= pascalCase(modelName) %>(id: number, input: Update<%= pascalCase(modelName) %>Input, authData: AuthData, info: GraphQLResolveInfo) {
+    return this.prisma.<%= singular(modelName) %>.update({
+      where: { id },
+      select: new PrismaSelect(info).value.select as Record<string, any>,
+      data: { ...input, updatedBy: authData.id },
+    });
+  }
+
+  async delete<%= pascalCase(modelName) %>(id: number, authData: AuthData) {
+    const record = await this.prisma.<%= singular(modelName) %>.findUnique({ where: { id }, select: { id: true } })
+    if (!record) throw new Error("Record not found");
+
+    await this.prisma.<%= singular(modelName) %>.update({ where: { id: record.id }, data: { deletedBy: authData.id } });
+    await this.prisma.<%= singular(modelName) %>.delete({ where: { id: record.id } });
+  }
+<% } %>
+}

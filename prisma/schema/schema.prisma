@@ -1,0 +1,19 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["relationJoins", "prismaSchemaFolder"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator nestgraphql {
+  provider           = "prisma-nestjs-graphql"
+  output             = "../../generated/graphql"
+  reExport           = "All"
+  noTypeId           = true
+  purgeOutput        = true
+  noAtomicOperations = true
+  emitBlocks         = ["models", "enums", "args"]
+}

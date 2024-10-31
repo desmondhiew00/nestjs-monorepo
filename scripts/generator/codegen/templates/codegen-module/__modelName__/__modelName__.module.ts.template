@@ -1,0 +1,8 @@
+import { Module } from '@nestjs/common';
+import { <%= pascalCase(modelName) %>Service } from './<%= modelName %>.service';
+import { <%= pascalCase(modelName) %>Resolver } from './<%= modelName %>.resolver';
+
+@Module({
+  providers: [<%= pascalCase(modelName) %>Service, <%= pascalCase(modelName) %>Resolver]
+})
+export class <%= pascalCase(modelName) %>Module {}
