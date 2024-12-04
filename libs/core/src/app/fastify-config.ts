@@ -43,9 +43,7 @@ export class FastifyConfig {
    */
   private emptyContentMiddleware(routes = ['/', '/favicon.ico', '/robots.txt']) {
     this.app.use((req: FastifyRequest, reply: FastifyReply, next: NextFunction) => {
-      console.log('req.url: ', req.url);
       if (routes.includes(req.url)) {
-        console.log('204');
         reply.status(204).send();
       } else {
         next();
