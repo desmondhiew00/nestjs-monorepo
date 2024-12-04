@@ -5,7 +5,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import cookieParser from 'cookie-parser';
 import { NextFunction, Request, Response } from 'express';
-import { graphqlUploadExpress } from 'graphql-upload-minimal';
 import helmet from 'helmet';
 import * as path from 'path';
 import * as signale from 'signale';
@@ -35,17 +34,6 @@ export const useSwagger = (app: NestExpressApplication, options: InitSwaggerOpti
 
   const document = SwaggerModule.createDocument(app, config.build());
   SwaggerModule.setup(path, app, document);
-};
-
-/**
- * Add middleware to handle GraphQL uploads
- */
-export const useGraphql = (
-  app: NestExpressApplication,
-  path = '/graphql',
-  { maxFiles = 10, maxFileSize = 50_000_000 },
-) => {
-  app.use(path, graphqlUploadExpress({ maxFileSize, maxFiles }));
 };
 
 /**
@@ -147,7 +135,6 @@ export const initServer = (app: NestExpressApplication, options?: InitServerOpti
     useValidationPipe(app);
     useExceptionHandler(app);
     useSwagger(app);
-    useGraphql(app, graphqlPath, { maxFiles: 10, maxFileSize: 50_000_000 });
   }
 
   void app.listen(port, () => showAppInfo({ port, prefix, swaggerPath, graphqlPath }));

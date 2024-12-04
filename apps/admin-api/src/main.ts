@@ -1,16 +1,26 @@
-import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 
-import { initServer } from '@app/core';
+import { FastifyConfig } from '@app/core/app/fastify-config';
+
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 
 import { AdminApiModule } from './admin-api.module';
 
+dayjs.extend(timezone);
+dayjs.extend(utc);
+
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AdminApiModule);
-  const configService = app.get(ConfigService);
-  const port = Number(configService.get('PORT')) || 3000;
-  initServer(app, { port, useCommonConfig: true });
+  const app = await NestFactory.create<NestFastifyApplication>(AdminApiModule, new FastifyAdapter());
+
+  const fastifyConfig = new FastifyConfig(app);
+  await fastifyConfig.useHelmet();
+  await fastifyConfig.useCors();
+  await fastifyConfig.useCompress();
+  fastifyConfig.useSwagger();
+  await fastifyConfig.start();
 }
 
 void bootstrap();

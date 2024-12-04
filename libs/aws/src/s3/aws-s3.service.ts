@@ -14,8 +14,6 @@ import {
 } from '@aws-sdk/client-s3';
 import { BodyDataTypes, Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { FileUpload } from 'graphql-upload-minimal';
-import * as mime from 'mime-types';
 import 'multer';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
@@ -138,35 +136,6 @@ export class AwsS3Service {
       ...options,
       Bucket: this.config.bucketName,
       Key: this.addPrefix(path.join('/', folder, key)),
-    };
-    const parallelUploadS3 = new Upload({
-      client: this.client,
-      params: uploadParams,
-    });
-    return await parallelUploadS3.done();
-  }
-
-  /**
-   * @param folder /users/1234/profile or / for root
-   * @param file import { FileUpload } from 'graphql-upload-minimal';
-   * @param key /users/1/profile/avatar.jpg, /groups/1/cover/image.jpg, etc
-   * @param acl public-read | private | public-read-write | authenticated-read | aws-exec-read | bucket-owner-read | bucket-owner-full-control
-   */
-  async uploadGqlFile(
-    gqlFile: FileUpload | Promise<FileUpload>,
-    folder: string,
-    key: string,
-    acl: ObjectCannedACL = 'public-read',
-  ): Promise<CompleteMultipartUploadCommandOutput> {
-    const file = await gqlFile;
-    const { filename, mimetype } = file;
-    const contentType = mime.lookup(filename) || mimetype;
-    const uploadParams: PutObjectCommandInput = {
-      Bucket: this.config.bucketName,
-      Key: this.addPrefix(path.join('/', folder, key)),
-      Body: file.createReadStream(),
-      ContentType: contentType,
-      ACL: acl,
     };
     const parallelUploadS3 = new Upload({
       client: this.client,
